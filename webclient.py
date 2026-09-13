@@ -16,6 +16,8 @@ req = (
     f"Host: {sys.argv[1]}\r\n".encode("ISO-8859-1") + 
     b"Connection: close\r\n"
     b"\r\n"
+    b"Hello from socket client\r\n"
+    b"\r\n"
 )
 soc_fd.sendall(req)
 
