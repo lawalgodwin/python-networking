@@ -11,13 +11,15 @@ print(f"[ADDRESS] {ADDR[0]}:{ADDR[1]}")
 
 soc_fd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 soc_fd.connect(ADDR)
+request_body = b"Hello from socket client\r\n\r\n"
 req = (
     b"GET / HTTP/1.1\r\n" + 
     f"Host: {sys.argv[1]}\r\n".encode("ISO-8859-1") + 
+    b"Content-Type: text/plain\r\n" +
+    f"Content-Length: {len(request_body)}\r\n".encode("ISO-8859-1") +
     b"Connection: close\r\n"
     b"\r\n"
-    b"Hello from socket client\r\n"
-    b"\r\n"
+    + request_body
 )
 soc_fd.sendall(req)
 

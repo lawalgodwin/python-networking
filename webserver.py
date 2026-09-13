@@ -21,7 +21,6 @@ def accept_request(sock):
     sock.close()
 
 def handle_request(client):
-    response_body = ""
     request = b""
     headers_delimiter = b"\r\n\r\n"
     res = (
@@ -43,12 +42,17 @@ def handle_request(client):
         print(line)
         if line.startswith("Content-Length:"):
             content_length = int(line.split(":")[1].strip())
-    print()
+        # Get the request method
+        if line.startswith("GET") or line.startswith("POST") or line.startswith("PUT") or line.startswith("DELETE"):
+            method = line.split(" ")[0]
+            print(f"Request method: {method}")
+    print(content_length)
     print("done reading all request headers")
     print("\nReading the request body\n")
     # Get the request body if there is any
     while len(body) < content_length:
-        body += client.recv(1024)
+        body += client.recv(content_length - len(body))
+    body = body[:content_length]
     print(body.decode("ISO-8859-1"))
     print("\nDone reading the request body")
     # send response back to client
