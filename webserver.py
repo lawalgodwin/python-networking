@@ -63,7 +63,7 @@ print(f"[SERVER] is listen on {server_ip}:{20123}")
 
 while True:
     # accept request from a client
-    client, sock = sock_fd.accept()
-    print(f"[SERVER] accepted connection from {client.getpeername()[0]}:{client.getpeername()[1]}")
+    client, client_addr = sock_fd.accept()
+    print(f"[SERVER] accepted connection from {client_addr[0]}:{client_addr[1]}")
     # handle request for client
     handle_request(client)
